@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 5: WebRTC Video Stream</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Scaledrone biblioteka signalizavimui (serveris) -->
+    <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
+</head>
+<body>
+    <h1>Lab 5: WebRTC Video Chat</h1>
+    <div class="video-container">
+        <div class="video-box">
+            <h3>Mano kamera</h3>
+            <video id="localVideo" autoplay muted></video>
+        </div>
+        <div class="video-box">
+            <h3>Pašnekovas</h3>
+            <video id="remoteVideo" autoplay></video>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
