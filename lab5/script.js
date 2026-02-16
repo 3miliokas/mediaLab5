@@ -120,10 +120,11 @@ function startWebRTC(isOfferer) {
 
     // Jei mes esame inicijuotojai, sukuriame pasiūlymą (offer)
     if (isOfferer) {
-        pc.onnegotiationneeded = () => {
-            pc.createOffer().then(localDesc => pc.setLocalDescription(localDesc)).then(() => {
-                sendMessage({'sdp': pc.localDescription});
-            });
-        };
+        pc.createOffer()
+          .then(offer => pc.setLocalDescription(offer))
+          .then(() => {
+              sendMessage({'sdp': pc.localDescription});
+          })
+          .catch(e => console.error("Klaida kuriant pasiūlymą (offer):", e));
     }
 }

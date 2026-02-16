@@ -26,3 +26,11 @@ body {
     border: 2px solid #333;
     border-radius: 8px;
 }
+
+/* Pritaikymas mobiliesiems įrenginiams */
+@media (max-width: 850px) {
+    .video-container {
+        flex-direction: column; /* Išdėsto elementus vieną po kitu */
+        align-items: center; /* Centruoja stulpelyje */
+    }
+}
