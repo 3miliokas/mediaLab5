@@ -58,6 +58,7 @@ function sendMessage(message) {
 function startWebRTC(isOfferer) {
     if (pc) return; // Jei ryšys jau kuriamas, nieko nedarome
 
+    let candidateQueue = []; // Eilė kandidatams, kurie atėjo per anksti
     const configuration = {
         iceServers: [{
             urls: 'stun:stun.l.google.com:19302' // Google STUN serveris (padeda rasti IP)
@@ -95,6 +96,11 @@ function startWebRTC(isOfferer) {
         if (data.sdp) {
             // Gavome pasiūlymą (offer) arba atsakymą (answer)
             pc.setRemoteDescription(new RTCSessionDescription(data.sdp), () => {
+                // Kai sėkmingai nustatome remote description, sudedame laukiančius kandidatus
+                while (candidateQueue.length > 0) {
+                    pc.addIceCandidate(candidateQueue.shift());
+                }
+
                 if (pc.remoteDescription.type === 'offer') {
                     pc.createAnswer().then(localDesc => pc.setLocalDescription(localDesc)).then(() => {
                         sendMessage({'sdp': pc.localDescription});
@@ -102,8 +108,13 @@ function startWebRTC(isOfferer) {
                 }
             });
         } else if (data.candidate) {
-            // Gavome tinklo kandidatą
-            pc.addIceCandidate(new RTCIceCandidate(data.candidate));
+            // Gavome tinklo kandidatą. Dedame tik jei ryšys jau paruoštas, kitaip - į eilę.
+            const candidate = new RTCIceCandidate(data.candidate);
+            if (pc.remoteDescription) {
+                pc.addIceCandidate(candidate).catch(e => console.error(e));
+            } else {
+                candidateQueue.push(candidate);
+            }
         }
     });
 

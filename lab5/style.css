@@ -10,11 +10,18 @@ body {
     display: flex;
     gap: 20px;
     margin-top: 20px;
+    flex-wrap: wrap; /* Leidžia elementams persikelti į kitą eilutę */
+    justify-content: center;
+    width: 100%;
+    padding: 0 10px; /* Šiek tiek vietos iš šonų */
+    box-sizing: border-box;
 }
 
 .video-box video {
-    width: 400px;
-    height: 300px;
+    width: 100%; /* Užima visą tėvinio elemento plotį */
+    max-width: 400px; /* Bet ne daugiau nei 400px */
+    height: auto; /* Aukštis prisitaiko automatiškai */
+    aspect-ratio: 4/3; /* Išlaiko proporcijas */
     background-color: black;
     border: 2px solid #333;
     border-radius: 8px;
