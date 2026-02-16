@@ -20,13 +20,14 @@ navigator.mediaDevices.getUserMedia({
 });
 // 4. Prisijungimas prie Scaledrone (Signaling Server)
 const drone = new ScaleDrone(CHANNEL_ID);
+let room; // Globalus kintamasis kambariui
 let pc; // PeerConnection objektas
 
 drone.on('open', error => {
     if (error) return console.error(error);
     
     // Prisijungiame prie "kambario"
-    const room = drone.subscribe(ROOM_NAME);
+    room = drone.subscribe(ROOM_NAME);
     
     room.on('open', error => {
         if (error) error(error);
@@ -39,6 +40,11 @@ drone.on('open', error => {
             startWebRTC(isOfferer);
         }
     });
+
+    // FIX: Kai prisijungia naujas narys, o mes jau esame kambaryje
+    room.on('member_join', member => {
+        startWebRTC(false);
+    });
 });
 
 // Siunčiame žinutes per Scaledrone kitam nariui
@@ -50,6 +56,8 @@ function sendMessage(message) {
 }
 
 function startWebRTC(isOfferer) {
+    if (pc) return; // Jei ryšys jau kuriamas, nieko nedarome
+
     const configuration = {
         iceServers: [{
             urls: 'stun:stun.l.google.com:19302' // Google STUN serveris (padeda rasti IP)
@@ -81,7 +89,6 @@ function startWebRTC(isOfferer) {
     });
 
     // Apdorojame gautas žinutes (SDP arba ICE)
-    const room = drone.subscribe(ROOM_NAME);
     room.on('data', (data, member) => {
         if (member.id === drone.clientId) return; // Ignoruojame savo žinutes
 
