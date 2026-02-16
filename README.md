@@ -38,5 +38,6 @@ The general requirements for option A & B.
 ## Implementation Details (Option B)
 
 Tested on:
-1. Google Chrome (Version 144.0.7559.97) 	- Works
-2. Safari (Version 26.2 (21623.1.14.11.9)) 	- Works
+1. Google Chrome MacOS (Version 144.0.7559.97) 	    - Works
+2. Safari (Version 26.2 (21623.1.14.11.9)) 	        - Works
+1. Google Chrome Android (Version 144.0.7559.132) 	- Works
