@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+    <title>MediaLab4 - WebRTC Filter</title>
+    
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+<div id="container">
+
+    <h1>WebRTC Filter App</h1>
+
+    <!-- Vaizdas iš kameros -->
+    <video id="video" playsinline autoplay></video>
+
+    <div class="controls">
+        <label for="filter">Filter: </label>
+        <select id="filter">
+            <option value="none">None</option>
+            <option value="blur">Blur</option>
+            <option value="grayscale">Grayscale</option>
+            <option value="invert">Invert</option>
+            <option value="sepia">Sepia</option>
+            <option value="brightness">Brightness (Custom)</option>
+        </select>
+
+        <button id="snapshot">Take snapshot</button>
+
+        <!-- Slankiklis, kuris matysis tik pasirinkus Brightness -->
+        <div id="slider-container" style="display: none; margin-top: 10px;">
+            <label for="brightnessRange">Brightness Level: </label>
+            <input type="range" id="brightnessRange" min="0" max="200" value="100">
+            <span id="brightnessValue">100%</span>
+        </div>
+    </div>
+
+    <!-- Snapshot atvaizdavimas -->
+    <canvas id="canvas"></canvas>
+
+</div>
+
+<!-- Pasak DI adapteris padeda veikti skirtingose naršyklėse -->
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

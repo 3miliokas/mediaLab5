@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lab2 - VR application</title>
+    <meta name="description" content="Basic example for Point Cloud component."></meta>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="js/aframe-pointcloud-component.js"></script>
+    <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
+  </head>
+  <body>
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable">
+      
+      <a-assets>
+        <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+      </a-assets>
+
+      <a-plane src="#groundTexture" rotation="-90 0 0" height="100" width="100"></a-plane>
+      <a-light type="ambient" color="#445451"></a-light>
+      <a-light type="point" intensity="2" position="2 4 4"></a-light>
+      <a-sky color="#111"></a-sky>
+
+      <a-entity camera look-controls orbit-controls="target: 0 1 -2; minDistance: 0.5; maxDistance: 10; initialPosition: 0 2 3"></a-entity>
+
+      <a-pointcloud 
+          id="myModel"
+          scale="0.1 0.1 0.1" 
+          position="0 1 -2" 
+          rotation="-90 0 0" 
+          src="sculpt.ply" 
+          size="0.01"
+          animation="property: rotation; to: -90 360 0; loop: true; dur: 10000; easing: linear">
+      </a-pointcloud>
+
+      <a-entity position="-1.5 1.5 -2" rotation="0 20 0">
+        
+        <a-text value="Controls" position="-1 0.6 0" align="center" color="white"></a-text>
+
+        <a-box id="vr-btn-start" position="-1 0.3 0" depth="0.1" height="0.2" width="0.8" color="#06402B" class="clickable">
+          <a-text value="Start" align="center" position="0 0 0.06" scale="0.5 0.5 0.5"></a-text>
+        </a-box>
+
+        <a-box id="vr-btn-stop" position="-1 0 0" depth="0.1" height="0.2" width="0.8" color="red" class="clickable">
+          <a-text value="Stop" align="center" position="0 0 0.06" scale="0.5 0.5 0.5"></a-text>
+        </a-box>
+
+        <a-box id="vr-btn-reset-rot" position="-1 -0.3 0" depth="0.1" height="0.2" width="0.8" color="black" class="clickable">
+          <a-text value="Reset Rototation" align="center" position="0 0 0.06" scale="0.5 0.5 0.5"></a-text>
+        </a-box>
+
+        <a-box id="vr-btn-reset-view" position="-1 -0.6 0" depth="0.1" height="0.2" width="0.8" color="blue" class="clickable">
+          <a-text value="Reset View" align="center" position="0 0 0.06" scale="0.5 0.5 0.5"></a-text>
+        </a-box>
+
+      </a-entity>
+
+    </a-scene>
+
+    <script>
+      // Pagalbinė funkcija mygtuko spalvos mirktelėjimui
+      function flashButton(el) {
+        let originalColor = el.getAttribute('color');
+        el.setAttribute('color', '#ffffff'); // Sušvinta baltai
+        setTimeout(() => {
+          el.setAttribute('color', originalColor); // Grįžta spalva
+        }, 200);
+      }
+
+      // Start Animation
+      document.querySelector('#vr-btn-start').addEventListener('click', function () {
+        flashButton(this);
+        document.getElementById('myModel').setAttribute('animation', 'enabled', true);
+      });
+
+      // Stop Animation
+      document.querySelector('#vr-btn-stop').addEventListener('click', function () {
+        flashButton(this);
+        document.getElementById('myModel').setAttribute('animation', 'enabled', false);
+      });
+
+      // Reset Rotation
+      document.querySelector('#vr-btn-reset-rot').addEventListener('click', function () {
+        flashButton(this);
+        document.querySelector('a-pointcloud').setAttribute('rotation', '-90 0 0');
+      });
+
+      // Reset View (Reload)
+      document.querySelector('#vr-btn-reset-view').addEventListener('click', function () {
+        flashButton(this);
+        setTimeout(() => location.reload(), 200);
+      });
+    </script>
+  </body>
+</html>

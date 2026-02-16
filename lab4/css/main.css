@@ -1,0 +1,35 @@
+/* css/main.css */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+video {
+    width: 100%;
+    max-width: 640px;
+    background: #000;
+    object-fit: cover;
+}
+
+canvas {
+    display: block;
+    margin-top: 20px;
+    max-width: 640px;
+    width: 100%;
+}
+
+.controls {
+    margin: 20px 0;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+/* Filtrai */
+.blur { filter: blur(3px); }
+.grayscale { filter: grayscale(1); }
+.invert { filter: invert(1); }
+.sepia { filter: sepia(1); }
